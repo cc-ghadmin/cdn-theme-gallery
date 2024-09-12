@@ -35,10 +35,11 @@ if (gallery) {
     errorMsg: params.errorMsg,
   });
 
+  //  Download Button
   lightbox.on("uiRegister", () => {
     lightbox.pswp.ui.registerElement({
       name: "download-button",
-      order: 8,
+      order: 9,
       isButton: true,
       tagName: "a",
       html: {
@@ -52,8 +53,38 @@ if (gallery) {
         el.setAttribute("rel", "noopener");
         el.setAttribute("title", params.downloadTitle || "Download");
         pswp.on("change", () => {
-          el.href = pswp.currSlide.data.element.href;
+          // el.href = pswp.currSlide.data.element.href;
+          el.href = `${window.location.origin}/${pswp.currSlide.data.src}`;
+          var copyText = el.href;
+          /* Copy the text */
+          if (window.isSecureContext){
+            navigator.clipboard.writeText(copyText);
+          }
+          // Some debugging
+          // console.log('[CC Logging] copyText:', copyText);
+          // console.log('[CC Logging] pswpSrc:', pswp.currSlide.data.element.dataset.pswpSrc);
+          // console.log('[CC Logging] href:', pswp.currSlide.data.element.href);
+          // console.log('[CC Logging] src:', pswp.currSlide.data.src);
+          // console.log(`[CC Logging] copyURL: ${window.location.origin}/${pswp.currSlide.data.src}`);
         });
+      },
+    });
+  });
+
+  // Info button
+  lightbox.on("uiRegister", () => {
+    lightbox.pswp.ui.registerElement({
+      name: "info-button",
+      order: 8,
+      isButton: true,
+      html: '<b>Info</b>',
+      onClick: (el, pswp) => {
+        var originalImage = lightbox.pswp.currSlide.data.element.pathname.split('/').pop();
+        var modifiedImage = lightbox.pswp.currSlide.data.src.split('/').pop();
+        confirm(`Original Image: ${originalImage}\n\nModified Image: ${modifiedImage}`);
+        // Some debugging
+        // console.log('[CC Logging] Original Image Name:', originalImage);
+        // console.log('[CC Logging] Modified Image Name:', modifiedImage);
       },
     });
   });

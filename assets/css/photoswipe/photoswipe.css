@@ -418,3 +418,12 @@ div.pswp__img--placeholder,
 .pswp--one-slide .pswp__counter {
   display: none;
 }
+
+
+/* Info Button */
+
+button.pswp__button--info-button {
+  background: #136912 !important;
+  font-size: 20px;
+  color: #fff;
+}
