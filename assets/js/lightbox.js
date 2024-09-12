@@ -71,13 +71,65 @@ if (gallery) {
     });
   });
 
-  // Info button
+/*
+  //  Copy to Clipboard Button
+  lightbox.on("uiRegister", () => {
+    lightbox.pswp.ui.registerElement({
+      name: "copy-button",
+      order: 8,
+      isButton: true,
+      tagName: "a",
+      html: '<svg ria-hidden="true" class="pswp__icn-copy" viewBox="-17 -19 52 52"><path d="M15 17v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h3" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.2"/><rect width="12" height="14" x="7" y="3" data-name="primary" rx="1" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.2"/></svg>',
+      onInit: (el, pswp) => {
+        el.setAttribute("download", "");
+        el.setAttribute("target", "_blank");
+        el.setAttribute("rel", "noopener");
+        el.setAttribute("title", params.downloadTitle || "Copy to Clipboard");
+        pswp.on("change", () => {
+          var copyText = el.href;
+          Copy the text
+          if (window.isSecureContext){
+            navigator.clipboard.writeText(copyText);
+          }
+          // Some debugging
+          // console.log('[CC Logging] copyText:', copyText);
+          // console.log('[CC Logging] pswpSrc:', pswp.currSlide.data.element.dataset.pswpSrc);
+          // console.log('[CC Logging] href:', pswp.currSlide.data.element.href);
+          // console.log('[CC Logging] src:', pswp.currSlide.data.src);
+          // console.log(`[CC Logging] copyURL: ${window.location.origin}/${pswp.currSlide.data.src}`);
+        });
+      },
+    });
+  });
+*/
+
+  // Copy to Clipboard button
   lightbox.on("uiRegister", () => {
     lightbox.pswp.ui.registerElement({
       name: "info-button",
       order: 8,
       isButton: true,
-      html: '<b>Info</b>',
+      html: '<svg ria-hidden="true" class="pswp__icn-copy" viewBox="-17 -15 52 52"><path d="M15 17v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h3" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.2"/><rect width="12" height="14" x="7" y="3" data-name="primary" rx="1" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.2"/></svg>',
+      onClick: (el, pswp) => {
+        var copyText = window.location.origin + lightbox.pswp.currSlide.data.src;
+        // console.log('[CC Logging] copyText:', copyText);
+        if (window.isSecureContext){
+          navigator.clipboard.writeText(copyText);
+        }
+        // Some debugging
+        // console.log('[CC Logging] Original Image Name:', originalImage);
+        // console.log('[CC Logging] Modified Image Name:', modifiedImage);
+      },
+    });
+  });
+
+  // Info button
+  lightbox.on("uiRegister", () => {
+    lightbox.pswp.ui.registerElement({
+      name: "info-button",
+      order: 7,
+      isButton: true,
+      html: '<svg ria-hidden="true" class="pswp__icn-info" viewBox="-13 -14 52 52"><circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="2.2"/><path stroke="#fff" stroke-linecap="round" stroke-width="2.2" d="M12 17v-6"/><circle cx="1" cy="1" r="1" fill="#fff" transform="matrix(1 0 0 -1 11 9)"/></svg>',
       onClick: (el, pswp) => {
         var originalImage = lightbox.pswp.currSlide.data.element.pathname.split('/').pop();
         var modifiedImage = lightbox.pswp.currSlide.data.src.split('/').pop();
