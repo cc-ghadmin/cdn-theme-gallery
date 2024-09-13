@@ -115,6 +115,7 @@ if (gallery) {
         // console.log('[CC Logging] copyText:', copyText);
         if (window.isSecureContext){
           navigator.clipboard.writeText(copyText);
+          confirm('Image URL copied to clipboard');
         }
         // Some debugging
         // console.log('[CC Logging] Original Image Name:', originalImage);
